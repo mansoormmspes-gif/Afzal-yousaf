@@ -1,7 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
-
-const dataFilePath = path.join(process.cwd(), "data", "videos.json");
+import { db } from "./firebase";
+import { ref, get, set } from "firebase/database";
 
 export interface Video {
     id: string;
@@ -12,16 +10,27 @@ export interface Video {
 
 export async function getVideos(): Promise<Video[]> {
     try {
-        const data = await fs.readFile(dataFilePath, "utf8");
-        return JSON.parse(data);
+        const videosRef = ref(db, 'videos');
+        const snapshot = await get(videosRef);
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            const videos = Object.values(data) as Video[];
+            return videos.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        }
+        return [];
     } catch (error) {
-        // If file doesn't exist or is empty, return empty array
+        console.error("Error reading videos from Firebase:", error);
         return [];
     }
 }
 
 export async function saveVideos(videos: Video[]): Promise<void> {
-    await fs.writeFile(dataFilePath, JSON.stringify(videos, null, 2), "utf8");
+    const videosRef = ref(db, 'videos');
+    const videosObject = videos.reduce((acc, video) => {
+        acc[video.id] = video;
+        return acc;
+    }, {} as Record<string, Video>);
+    await set(videosRef, videosObject);
 }
 
 export async function getVideoById(id: string): Promise<Video | undefined> {

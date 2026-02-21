@@ -1,8 +1,5 @@
-import fs from "fs";
-import path from "path";
-
-const messagesDirectory = path.join(process.cwd(), "data");
-const messagesFile = path.join(messagesDirectory, "messages.json");
+import { db } from "./firebase";
+import { ref, get, set, remove } from "firebase/database";
 
 export interface ContactMessage {
     id: string;
@@ -12,49 +9,37 @@ export interface ContactMessage {
     date: string;
 }
 
-// Helper to ensure the file exists
-function ensureFileExists() {
-    if (!fs.existsSync(messagesDirectory)) {
-        fs.mkdirSync(messagesDirectory, { recursive: true });
-    }
-    if (!fs.existsSync(messagesFile)) {
-        fs.writeFileSync(messagesFile, "[]", "utf-8");
-    }
-}
-
-export function getMessages(): ContactMessage[] {
+export async function getMessages(): Promise<ContactMessage[]> {
     try {
-        ensureFileExists();
-        const fileContents = fs.readFileSync(messagesFile, "utf8");
-        const messages = JSON.parse(fileContents);
-        // Sort messages by date descending (newest first)
-        return messages.sort((a: ContactMessage, b: ContactMessage) => {
-            return new Date(b.date).getTime() - new Date(a.date).getTime();
-        });
+        const messagesRef = ref(db, 'messages');
+        const snapshot = await get(messagesRef);
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            const messages = Object.values(data) as ContactMessage[];
+            // Sort messages by date descending (newest first)
+            return messages.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        }
+        return [];
     } catch (error) {
-        console.error("Error reading messages:", error);
+        console.error("Error reading messages from Firebase:", error);
         return [];
     }
 }
 
-export function saveMessage(messageData: Omit<ContactMessage, "id" | "date">): ContactMessage {
-    ensureFileExists();
-    const messages = getMessages();
-
+export async function saveMessage(messageData: Omit<ContactMessage, "id" | "date">): Promise<ContactMessage> {
     const newMessage: ContactMessage = {
         ...messageData,
         id: Date.now().toString(),
         date: new Date().toISOString()
     };
 
-    messages.push(newMessage);
-    fs.writeFileSync(messagesFile, JSON.stringify(messages, null, 2), "utf8");
+    const messageRef = ref(db, `messages/${newMessage.id}`);
+    await set(messageRef, newMessage);
+
     return newMessage;
 }
 
-export function deleteMessage(id: string): void {
-    ensureFileExists();
-    const messages = getMessages();
-    const updatedMessages = messages.filter(msg => msg.id !== id);
-    fs.writeFileSync(messagesFile, JSON.stringify(updatedMessages, null, 2), "utf8");
+export async function deleteMessage(id: string): Promise<void> {
+    const messageRef = ref(db, `messages/${id}`);
+    await remove(messageRef);
 }

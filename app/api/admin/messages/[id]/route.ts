@@ -21,7 +21,7 @@ export async function DELETE(
             return NextResponse.json({ error: "Message ID is required" }, { status: 400 });
         }
 
-        deleteMessage(id);
+        await deleteMessage(id);
 
         return NextResponse.json({ success: true });
     } catch (error) {

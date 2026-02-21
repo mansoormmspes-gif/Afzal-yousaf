@@ -16,7 +16,7 @@ export async function GET() {
     }
 
     try {
-        const messages = getMessages();
+        const messages = await getMessages();
         return NextResponse.json(messages);
     } catch (error) {
         console.error("Error fetching messages:", error);

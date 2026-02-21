@@ -1,7 +1,5 @@
-import fs from "fs/promises";
-import path from "path";
-
-const dataFilePath = path.join(process.cwd(), "data", "posts.json");
+import { db } from "./firebase";
+import { ref, get, set } from "firebase/database";
 
 export interface Post {
     id: string;
@@ -18,19 +16,28 @@ export interface Post {
 
 export async function getPosts(): Promise<Post[]> {
     try {
-        console.log("Reading posts from:", dataFilePath);
-        const data = await fs.readFile(dataFilePath, "utf8");
-        const posts = JSON.parse(data);
-        console.log(`Successfully read ${posts.length} posts.`);
-        return posts;
+        const postsRef = ref(db, 'posts');
+        const snapshot = await get(postsRef);
+        if (snapshot.exists()) {
+            const data = snapshot.val();
+            const posts = Object.values(data) as Post[];
+            // Sort by date descending
+            return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+        }
+        return [];
     } catch (error) {
-        console.error("Error reading posts:", error);
+        console.error("Error reading posts from Firebase:", error);
         return [];
     }
 }
 
 export async function savePosts(posts: Post[]): Promise<void> {
-    await fs.writeFile(dataFilePath, JSON.stringify(posts, null, 2), "utf8");
+    const postsRef = ref(db, 'posts');
+    const postsObject = posts.reduce((acc, post) => {
+        acc[post.id] = post;
+        return acc;
+    }, {} as Record<string, Post>);
+    await set(postsRef, postsObject);
 }
 
 export async function getPostBySlug(slug: string): Promise<Post | undefined> {

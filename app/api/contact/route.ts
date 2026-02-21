@@ -13,7 +13,7 @@ export async function POST(request: Request) {
             );
         }
 
-        const newMessage = saveMessage({
+        const newMessage = await saveMessage({
             name: body.name,
             email: body.email,
             message: body.message,
