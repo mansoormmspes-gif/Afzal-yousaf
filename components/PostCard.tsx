@@ -17,6 +17,7 @@ export default function PostCard({ post }: { post: Post }) {
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
             whileHover={{ y: -8 }}
             className={styles.cardWrapper}
+            style={{ willChange: "transform, opacity" }}
         >
             <Link href={`/blog/${post.slug}`} className={styles.card}>
                 <div

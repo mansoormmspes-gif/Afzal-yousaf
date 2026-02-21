@@ -34,6 +34,9 @@
     line-height: 1.2;
     margin-bottom: 2rem;
     color: var(--foreground);
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 @media (min-width: 768px) {

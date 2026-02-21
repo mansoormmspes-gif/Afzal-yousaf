@@ -22,6 +22,7 @@ export default function VideoCard({ video }: { video: Video }) {
             transition={{ type: "spring", stiffness: 100, damping: 20 }}
             whileHover={{ y: -8 }}
             className={styles.cardWrapper}
+            style={{ willChange: "transform, opacity" }}
         >
             <div className={styles.card}>
                 <div className={styles.videoContainer}>

@@ -71,13 +71,23 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   font-family: var(--font-inter);
-  background: var(--background);
-  background-attachment: fixed;
   color: var(--foreground);
   line-height: 1.7;
   scroll-behavior: smooth;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  position: relative;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  background: var(--background);
+  z-index: -10;
+  pointer-events: none;
 }
 
 h1,

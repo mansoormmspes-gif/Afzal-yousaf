@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, Clock } from "lucide-react";
-import postsData from "@/data/posts.json";
+import { getPostBySlug } from "@/lib/posts";
 import styles from "./page.module.css";
 import { Metadata } from "next";
 
@@ -15,7 +15,7 @@ interface PageProps {
 
 export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
     const { slug } = await params;
-    const post = postsData.find((p) => p.slug === slug);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         return { title: 'Post Not Found' };
@@ -29,7 +29,7 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
 
 export default async function BlogPost({ params }: PageProps) {
     const { slug } = await params;
-    const post = postsData.find((p) => p.slug === slug);
+    const post = await getPostBySlug(slug);
 
     if (!post) {
         notFound();

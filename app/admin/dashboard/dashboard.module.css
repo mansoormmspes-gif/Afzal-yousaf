@@ -138,3 +138,36 @@
     text-align: center;
     color: var(--muted-foreground);
 }
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+
+    .actions {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .listHeader {
+        display: none;
+    }
+
+    .postItem {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        position: relative;
+    }
+
+    .postActions {
+        width: 100%;
+        justify-content: flex-start;
+        margin-top: 0.5rem;
+        padding-top: 0.5rem;
+        border-top: 1px solid var(--border);
+    }
+}

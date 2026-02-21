@@ -68,6 +68,9 @@
     line-height: 1.4;
     font-family: var(--font-playfair);
     transition: color 0.3s ease;
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
 }
 
 .cardWrapper:hover .title {
