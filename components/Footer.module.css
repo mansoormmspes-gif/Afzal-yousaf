@@ -1,0 +1,57 @@
+.footer {
+    border-top: 1px solid var(--border);
+    padding: 4rem 1.5rem;
+    background-color: var(--background);
+    color: var(--muted-foreground);
+    margin-top: auto;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+    text-align: center;
+}
+
+@media (min-width: 768px) {
+    .container {
+        flex-direction: row;
+        justify-content: space-between;
+        text-align: left;
+    }
+}
+
+.brand h3 {
+    font-family: var(--font-playfair);
+    color: var(--foreground);
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+.brand p {
+    font-size: 0.9rem;
+}
+
+.socials {
+    display: flex;
+    gap: 1.5rem;
+}
+
+.socialLink {
+    color: var(--muted-foreground);
+    transition: color 0.2s;
+}
+
+.socialLink:hover {
+    color: var(--accent);
+}
+
+.copyright {
+    font-size: 0.85rem;
+    margin-top: 2rem;
+    text-align: center;
+    width: 100%;
+}

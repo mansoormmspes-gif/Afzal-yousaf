@@ -1,0 +1,137 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+    min-height: calc(100vh - 5rem - 6rem);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.title {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.backBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: var(--muted);
+    color: var(--foreground);
+    transition: all 0.2s ease;
+}
+
+.backBtn:hover {
+    background: var(--accent);
+    color: var(--primary-foreground);
+    transform: scale(1.05);
+}
+
+.messagesList {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.empty {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--muted-foreground);
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: var(--radius-lg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.messageItem {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.messageItem:hover {
+    box-shadow: var(--shadow-sm);
+    transform: translateY(-2px);
+}
+
+.messageHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 1rem;
+}
+
+.senderInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.senderName {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.senderEmail {
+    color: var(--muted-foreground);
+    font-size: 0.9rem;
+    transition: color 0.2s;
+}
+
+.senderEmail:hover {
+    color: var(--accent);
+}
+
+.messageDate {
+    font-size: 0.85rem;
+    color: var(--muted-foreground);
+}
+
+.messageContent {
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: var(--foreground);
+}
+
+.messageActions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 0.5rem;
+}
+
+.actionBtn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--muted-foreground);
+    padding: 0.5rem;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.deleteBtn:hover {
+    background-color: rgba(239, 68, 68, 0.1);
+    color: #ef4444;
+}
