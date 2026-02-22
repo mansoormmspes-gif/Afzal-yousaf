@@ -118,16 +118,20 @@
     top: 0;
     right: 0;
     width: 80%;
-    max-width: 350px;
+    max-width: 300px;
     height: 100vh;
-    background: var(--card);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: rgba(255, 255, 255, 0.25);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(50px);
     padding: 7rem 2.5rem 3rem;
     border-left: 1px solid var(--card-border);
-    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
     display: flex;
     flex-direction: column;
+}
+
+[data-theme="dark"] .mobileMenu {
+    background: rgba(10, 10, 10, 0.3);
 }
 
 .mobileLinksContainer {
@@ -139,7 +143,7 @@
 
 .mobileLink {
     font-family: var(--font-playfair);
-    font-size: 2rem;
+    font-size: 1.25rem;
     font-weight: 600;
     color: var(--muted-foreground);
     transition: color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
