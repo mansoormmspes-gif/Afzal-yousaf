@@ -26,7 +26,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className={styles.copyright}>
-                &copy; {new Date().getFullYear()} Afzal yousaf. All rights reserved.
+                <p>&copy; 2026 Afzal yousaf. All rights reserved. Designed by mde.bymms with ❤️ in Kerala.</p>
             </div>
         </footer>
     );
