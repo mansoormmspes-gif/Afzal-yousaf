@@ -105,37 +105,41 @@
     left: 0;
     width: 100vw;
     height: 100vh;
-    background: rgba(var(--background-rgb, 250, 250, 250), 0.8);
+    background: rgba(var(--background-rgb, 250, 250, 250), 0.6);
     z-index: 99;
-    display: flex;
-    justify-content: center;
 }
 
 [data-theme="dark"] .mobileOverlay {
-    background: rgba(5, 5, 5, 0.8);
+    background: rgba(5, 5, 5, 0.6);
 }
 
 .mobileMenu {
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    background: var(--background);
-    padding: 6rem 2rem 3rem;
-    border-bottom: 1px solid var(--border);
-    box-shadow: var(--shadow-xl);
+    right: 0;
+    width: 80%;
+    max-width: 350px;
+    height: 100vh;
+    background: var(--card);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    padding: 7rem 2.5rem 3rem;
+    border-left: 1px solid var(--card-border);
+    box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
 }
 
 .mobileLinksContainer {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    align-items: center;
+    align-items: flex-start;
 }
 
 .mobileLink {
     font-family: var(--font-playfair);
-    font-size: 2.5rem;
+    font-size: 2rem;
     font-weight: 600;
     color: var(--muted-foreground);
     transition: color 0.3s ease, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);

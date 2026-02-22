@@ -99,23 +99,25 @@ export default function NavBar() {
                     <motion.div
                         className={styles.mobileOverlay}
                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                        animate={{ opacity: 1, backdropFilter: "blur(15px)" }}
+                        animate={{ opacity: 1, backdropFilter: "blur(5px)" }}
                         exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
                         transition={{ duration: 0.3 }}
+                        onClick={() => setMobileMenuOpen(false)}
                     >
                         <motion.div
                             className={styles.mobileMenu}
-                            initial={{ y: "-100%" }}
-                            animate={{ y: 0 }}
-                            exit={{ y: "-100%", opacity: 0 }}
+                            initial={{ x: "100%" }}
+                            animate={{ x: 0 }}
+                            exit={{ x: "100%" }}
                             transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                            onClick={(e) => e.stopPropagation()}
                         >
                             <div className={styles.mobileLinksContainer}>
                                 {navLinks.map((link, i) => (
                                     <motion.div
                                         key={link.href}
-                                        initial={{ opacity: 0, y: 20 }}
-                                        animate={{ opacity: 1, y: 0 }}
+                                        initial={{ opacity: 0, x: 20 }}
+                                        animate={{ opacity: 1, x: 0 }}
                                         transition={{ delay: 0.1 + i * 0.05, duration: 0.4 }}
                                     >
                                         <Link
