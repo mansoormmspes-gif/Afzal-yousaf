@@ -55,3 +55,14 @@
     text-align: center;
     width: 100%;
 }
+
+.designerLink {
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s ease;
+}
+
+.designerLink:hover {
+    color: #87CEEB;
+    /* Sky blue */
+}

@@ -26,7 +26,7 @@ export default function Footer() {
                 </div>
             </div>
             <div className={styles.copyright}>
-                <p>&copy; 2026 Afzal yousaf. All rights reserved. Designed by <a href="https://www.instagram.com/mde.bymms/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'underline', color: 'inherit' }}>mde.bymms</a> with ❤️ in Kerala.</p>
+                <p>&copy; 2026 Afzal yousaf. All rights reserved. Designed by <a href="https://www.instagram.com/mde.bymms/" target="_blank" rel="noopener noreferrer" className={styles.designerLink}>mde.bymms</a> with ❤️ in Kerala.</p>
             </div>
         </footer>
     );
