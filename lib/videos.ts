@@ -15,7 +15,8 @@ export async function getVideos(): Promise<Video[]> {
         if (snapshot.exists()) {
             const data = snapshot.val();
             const videos = Object.values(data) as Video[];
-            return videos.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            // Sort by creation time (id is Date.now().toString()) descending
+            return videos.sort((a, b) => Number(b.id) - Number(a.id));
         }
         return [];
     } catch (error) {

@@ -21,8 +21,8 @@ export async function getPosts(): Promise<Post[]> {
         if (snapshot.exists()) {
             const data = snapshot.val();
             const posts = Object.values(data) as Post[];
-            // Sort by date descending
-            return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            // Sort by creation time (id is Date.now().toString()) descending
+            return posts.sort((a, b) => Number(b.id) - Number(a.id));
         }
         return [];
     } catch (error) {

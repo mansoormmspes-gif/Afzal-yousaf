@@ -22,8 +22,8 @@ export default async function Home() {
     ...videos.map(video => ({ type: "video" as const, data: video, dateStr: video.date }))
   ];
 
-  // Sort descending by date
-  combinedItems.sort((a, b) => new Date(b.dateStr).getTime() - new Date(a.dateStr).getTime());
+  // Sort descending by creation timestamp (id)
+  combinedItems.sort((a, b) => Number(b.data.id) - Number(a.data.id));
 
   // Show top 6 latest items
   const topItems = combinedItems.slice(0, 6);
