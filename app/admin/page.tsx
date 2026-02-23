@@ -7,11 +7,13 @@ import styles from "../contact/page.module.css"; // Reusing contact form styles
 export default function AdminLogin() {
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setError("");
+        setIsLoading(true);
 
         try {
             const res = await fetch("/api/auth", {
@@ -26,9 +28,11 @@ export default function AdminLogin() {
                 router.push("/admin/dashboard");
             } else {
                 setError("Invalid password");
+                setIsLoading(false);
             }
         } catch (err) {
             setError("An error occurred");
+            setIsLoading(false);
         }
     };
 
@@ -57,13 +61,20 @@ export default function AdminLogin() {
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             required
+                            disabled={isLoading}
                         />
                     </div>
 
                     {error && <p style={{ color: "red", fontSize: "0.9rem" }}>{error}</p>}
 
-                    <button type="submit" className={styles.button}>
-                        Login
+                    <button type="submit" className={styles.button} disabled={isLoading}>
+                        {isLoading ? (
+                            <span className="loading-dots">
+                                <span>.</span><span>.</span><span>.</span>
+                            </span>
+                        ) : (
+                            "Login"
+                        )}
                     </button>
                 </form>
             </div>
