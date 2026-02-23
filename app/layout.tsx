@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import NavBar from "../components/NavBar";
 import Footer from "../components/Footer";
-import Background3D from "../components/Background3D";
 import { ThemeProvider } from "../components/ThemeProvider";
 import "./globals.css";
 
@@ -30,7 +29,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} ${playfair.variable} antialiased`} style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <ThemeProvider attribute="data-theme" defaultTheme="system" enableSystem>
-          <Background3D />
           <NavBar />
           <main style={{ flex: 1, paddingTop: '6rem' }}>{children}</main>
           <Footer />
