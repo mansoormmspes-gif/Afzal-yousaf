@@ -28,7 +28,7 @@ const itemVariants: Variants = {
     }
 };
 
-export default function Hero() {
+export default function Hero({ intro, description }: { intro?: string, description?: string }) {
     return (
         <section className={styles.hero}>
             <motion.div
@@ -38,7 +38,7 @@ export default function Hero() {
                 animate="show"
             >
                 <motion.div variants={itemVariants} className={styles.introWrapper}>
-                    <span className={styles.intro}>Writer & Storyteller</span>
+                    <span className={styles.intro}>{intro || "Writer & Storyteller"}</span>
                     <div className={styles.line}></div>
                 </motion.div>
 
@@ -47,8 +47,7 @@ export default function Hero() {
                 </motion.h1>
 
                 <motion.p variants={itemVariants} className={styles.description}>
-                    Exploring the intersection of minimalism, technology, and design.
-                    Sharing thoughts on writing, creativity, and navigating the digital age.
+                    {description || "Exploring the intersection of minimalism, technology, and design. Sharing thoughts on writing, creativity, and navigating the digital age."}
                 </motion.p>
 
                 <motion.div variants={itemVariants}>

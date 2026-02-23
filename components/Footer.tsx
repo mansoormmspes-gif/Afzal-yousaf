@@ -1,13 +1,16 @@
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 import styles from "./Footer.module.css";
+import { getSettings } from "@/lib/settings";
 
-export default function Footer() {
+export default async function Footer() {
+    const settings = await getSettings();
+
     return (
         <footer className={styles.footer}>
             <div className={styles.container}>
                 <div className={styles.brand}>
                     <h3>Afzal yousaf</h3>
-                    <p>Writer, thinker, and storyteller.</p>
+                    <p>{settings.footerDescription}</p>
                 </div>
 
                 <div className={styles.socials}>

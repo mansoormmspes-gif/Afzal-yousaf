@@ -71,6 +71,9 @@ export default function Dashboard() {
                 <Link href="/admin/messages" className={styles.createBtn} style={{ backgroundColor: 'var(--card)', color: 'var(--foreground)', border: '1px solid var(--card-border)' }}>
                     View Messages
                 </Link>
+                <Link href="/admin/settings" className={styles.createBtn} style={{ backgroundColor: 'var(--card)', color: 'var(--foreground)', border: '1px solid var(--card-border)' }}>
+                    Site Settings
+                </Link>
             </div>
 
             <div className={styles.postsList}>

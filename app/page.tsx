@@ -4,6 +4,7 @@ import PostCard from "@/components/PostCard";
 import VideoCard from "@/components/VideoCard";
 import { getPosts, Post } from "@/lib/posts";
 import { getVideos, Video } from "@/lib/videos";
+import { getSettings } from "@/lib/settings";
 
 export const dynamic = "force-dynamic";
 
@@ -12,9 +13,10 @@ type StoryItem =
   | { type: "video"; data: Video; dateStr: string };
 
 export default async function Home() {
-  const [posts, videos] = await Promise.all([
+  const [posts, videos, settings] = await Promise.all([
     getPosts(),
-    getVideos()
+    getVideos(),
+    getSettings()
   ]);
 
   const combinedItems: StoryItem[] = [
@@ -30,7 +32,7 @@ export default async function Home() {
 
   return (
     <div className="container" style={{ paddingBottom: "4rem" }}>
-      <Hero />
+      <Hero intro={settings.heroIntro} description={settings.heroDescription} />
 
       <section id="latest-posts" style={{ marginTop: "2rem" }}>
         <div style={{
