@@ -49,19 +49,19 @@ export default function Contact() {
             </header>
 
             <div className={styles.contactInfo}>
-                <a href="mailto:hello@afzalyousaf.com" className={styles.infoCard}>
+                <a href="mailto:afzlysf@gmail.com" className={styles.infoCard}>
                     <Mail className={styles.infoIcon} size={24} />
                     <div className={styles.infoText}>
                         <span className={styles.infoLabel}>Email</span>
-                        <span className={styles.infoValue}>hello@afzalyousaf.com</span>
+                        <span className={styles.infoValue}>afzlysf@gmail.com</span>
                     </div>
                 </a>
 
-                <a href="tel:+1234567890" className={styles.infoCard}>
+                <a href="tel:+917909146549" className={styles.infoCard}>
                     <Phone className={styles.infoIcon} size={24} />
                     <div className={styles.infoText}>
                         <span className={styles.infoLabel}>Phone</span>
-                        <span className={styles.infoValue}>+1 (234) 567-890</span>
+                        <span className={styles.infoValue}>+91 790 914 6549</span>
                     </div>
                 </a>
             </div>
