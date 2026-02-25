@@ -5,7 +5,7 @@ export async function POST(request: Request) {
     const { password } = body;
 
     // In a real app, use environment variables and proper hashing
-    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "admin123";
+    const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "Afzal@79";
 
     if (password === ADMIN_PASSWORD) {
         const response = NextResponse.json({ success: true });
