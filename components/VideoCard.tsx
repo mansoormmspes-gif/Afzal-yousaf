@@ -1,18 +1,25 @@
 "use client";
 
+import { useState } from "react";
+
 import styles from "./VideoCard.module.css";
 import { Video } from "@/lib/videos";
 import { motion } from "framer-motion";
 
 export default function VideoCard({ video }: { video: Video }) {
+    const [isPlaying, setIsPlaying] = useState(false);
+
+    // Extract video ID safely
     const getYouTubeId = (url: string) => {
+        if (!url) return null;
         const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
         const match = url.match(regExp);
         return (match && match[2].length === 11) ? match[2] : null;
     };
 
     const videoId = getYouTubeId(video.youtubeUrl);
-    const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}` : "";
+    const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=1` : "";
+    const thumbnailUrl = videoId ? `https://img.youtube.com/vi/${videoId}/hqdefault.jpg` : "";
 
     return (
         <motion.div
@@ -26,7 +33,9 @@ export default function VideoCard({ video }: { video: Video }) {
         >
             <div className={styles.card}>
                 <div className={styles.videoContainer}>
-                    {embedUrl ? (
+                    {!videoId ? (
+                        <div className={styles.invalidUrl}>Invalid Video URL</div>
+                    ) : isPlaying ? (
                         <iframe
                             src={embedUrl}
                             title={video.title}
@@ -36,7 +45,29 @@ export default function VideoCard({ video }: { video: Video }) {
                             className={styles.iframe}
                         ></iframe>
                     ) : (
-                        <div className={styles.invalidUrl}>Invalid Video URL</div>
+                        <div
+                            className={styles.thumbnailWrapper}
+                            onClick={() => setIsPlaying(true)}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Play video: ${video.title}`}
+                            onKeyDown={(e) => {
+                                if (e.key === 'Enter' || e.key === ' ') {
+                                    setIsPlaying(true);
+                                }
+                            }}
+                        >
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                                src={thumbnailUrl}
+                                alt={video.title}
+                                className={styles.thumbnailImage}
+                                loading="lazy"
+                            />
+                            <div className={styles.playButton}>
+                                <div className={styles.playIcon}></div>
+                            </div>
+                        </div>
                     )}
                 </div>
                 <div className={styles.content}>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: "Read the latest thoughts and stories from Afzal yousaf.",
 };
 
-export const revalidate = 0; // Ensure fresh data on every request
+export const revalidate = 60; // Use ISR to serve lightning-fast pages and update in background
 
 export default async function BlogPage() {
     const posts = await getPosts();

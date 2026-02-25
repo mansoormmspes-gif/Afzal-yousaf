@@ -39,6 +39,61 @@
     height: 100%;
 }
 
+.thumbnailWrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.thumbnailImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.8;
+    transition: opacity 0.3s ease, transform 0.4s ease;
+}
+
+.thumbnailWrapper:hover .thumbnailImage {
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+.playButton {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 68px;
+    height: 48px;
+    background-color: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.playIcon {
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 10px 0 10px 18px;
+    border-color: transparent transparent transparent #fff;
+    margin-left: 4px;
+    /* Optical optical alignment */
+}
+
+.thumbnailWrapper:hover .playButton {
+    background-color: #ff0000;
+    /* YouTube Red */
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
 .invalidUrl {
     position: absolute;
     top: 0;

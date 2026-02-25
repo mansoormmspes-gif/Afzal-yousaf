@@ -5,6 +5,8 @@ import styles from "./PostCard.module.css";
 import { Post } from "@/lib/posts";
 import { motion } from "framer-motion";
 
+import Image from "next/image";
+
 export default function PostCard({ post }: { post: Post }) {
     const defaultImage = "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&q=80&w=800";
     const imageUrl = post.coverImage || defaultImage;
@@ -20,10 +22,14 @@ export default function PostCard({ post }: { post: Post }) {
             style={{ willChange: "transform, opacity" }}
         >
             <Link href={`/blog/${post.slug}`} className={styles.card}>
-                <div
-                    className={styles.image}
-                    style={{ backgroundImage: `url(${imageUrl})` }}
-                >
+                <div className={styles.image}>
+                    <Image
+                        src={imageUrl}
+                        alt={`Cover image for ${post.title}`}
+                        fill
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        className={styles.nextImage}
+                    />
                     <div className={styles.imageOverlay}></div>
                 </div>
                 <div className={styles.content}>

@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     description: "Watch the latest videos from Afzal yousaf.",
 };
 
-export const revalidate = 0; // Ensure fresh data on every request
+export const revalidate = 60; // Use ISR to cache page for instant loading
 
 export default async function VlogsPage() {
     const videos = await getVideos();
