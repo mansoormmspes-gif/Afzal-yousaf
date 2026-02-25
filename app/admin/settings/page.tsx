@@ -65,9 +65,9 @@ export default function SettingsAdmin() {
             <header style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '2rem' }}>
                 <div>
                     <h1 className={styles.title} style={{ margin: 0 }}>Site Settings</h1>
-                    <p style={{ color: 'var(--muted)', marginTop: '0.5rem' }}>Update static text across the website.</p>
+                    <p style={{ color: 'white', marginTop: '0.5rem' }}>Update static text across the website.</p>
                 </div>
-                <Link href="/admin/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--muted)', textDecoration: 'none' }}>
+                <Link href="/admin/dashboard" style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'white', textDecoration: 'none' }}>
                     <ArrowLeft size={16} /> Back to Dashboard
                 </Link>
             </header>
