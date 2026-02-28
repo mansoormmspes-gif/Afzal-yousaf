@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getSettings, updateSettings } from "@/lib/settings";
 import { cookies } from "next/headers";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
     try {
@@ -26,6 +27,10 @@ export async function POST(request: Request) {
     try {
         const data = await request.json();
         await updateSettings(data);
+
+        // Purge the entire site's router cache so the footer/hero updates immediately
+        revalidatePath('/', 'layout');
+
         return NextResponse.json({ success: true });
     } catch (error) {
         return NextResponse.json(
