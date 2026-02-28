@@ -32,13 +32,14 @@ export async function POST(request: Request) {
         // Ensure directory exists
         try {
             await mkdir(uploadDir, { recursive: true });
-        } catch (error) {
-            // Ignore if directory already exists
+        } catch (error: any) {
+            console.error("MKDIR Error:", error.message || error);
+            // We ignore EEXIST but other errors might be permissions issues
         }
 
         // Generate unique filename to avoid overwrites
         const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        const ext = path.extname(file.name);
+        const ext = path.extname(file.name || "image.jpg");
         const filename = `about-${uniqueSuffix}${ext}`;
         const filePath = path.join(uploadDir, filename);
 
@@ -49,10 +50,10 @@ export async function POST(request: Request) {
         const fileUrl = `/uploads/${filename}`;
 
         return NextResponse.json({ success: true, url: fileUrl });
-    } catch (error) {
-        console.error("Upload error:", error);
+    } catch (error: any) {
+        console.error("Upload error details:", error);
         return NextResponse.json(
-            { error: "Failed to upload file" },
+            { error: `Failed to upload file: ${error.message || "Unknown server error"}` },
             { status: 500 }
         );
     }

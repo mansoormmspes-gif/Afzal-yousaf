@@ -48,10 +48,19 @@ export default function SettingsAdmin() {
                     setMessage("Photo uploaded successfully! Don't forget to save settings.");
                 }
             } else {
-                setMessage("Failed to upload photo.");
+                let errorMsg = "Failed to upload photo.";
+                try {
+                    const errData = await res.json();
+                    if (errData.error) errorMsg += ` Error: ${errData.error}`;
+                } catch (err) {
+                    // In case of 413 Payload Too Large or HTML response
+                    if (res.status === 413) errorMsg += " File is too large.";
+                    else errorMsg += ` HTTP Status: ${res.status}`;
+                }
+                setMessage(errorMsg);
             }
-        } catch (error) {
-            setMessage("An error occurred during upload.");
+        } catch (error: any) {
+            setMessage(`An error occurred during upload: ${error.message || "Unknown error"}`);
         } finally {
             setUploadingImage(false);
         }
