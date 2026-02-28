@@ -4,6 +4,8 @@ import styles from "./page.module.css";
 import { Metadata } from "next";
 import { getSettings } from "@/lib/settings";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
     title: "About Afzal yousaf | Writer",
     description: "Learn more about Afzal yousaf, a writer and storyteller.",
@@ -22,16 +24,18 @@ export default async function About() {
             </header>
 
             <div className={styles.content}>
-                <div className={styles.imageWrapper}>
-                    <Image
-                        src={settings.aboutPhoto || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d"}
-                        alt="Afzal yousaf"
-                        width={800}
-                        height={500}
-                        className={styles.image}
-                        priority
-                    />
-                </div>
+                {settings.aboutPhoto && (
+                    <div className={styles.imageWrapper}>
+                        <Image
+                            src={settings.aboutPhoto}
+                            alt="Afzal yousaf"
+                            width={800}
+                            height={500}
+                            className={styles.image}
+                            priority
+                        />
+                    </div>
+                )}
 
                 <div className={styles.bio}>
                     {settings.aboutBio1 && <p>{settings.aboutBio1}</p>}

@@ -11,6 +11,7 @@ export default function SettingsAdmin() {
     const router = useRouter();
     const [settings, setSettings] = useState<SiteSettings | null>(null);
     const [saving, setSaving] = useState(false);
+    const [uploadingImage, setUploadingImage] = useState(false);
     const [message, setMessage] = useState("");
 
     useEffect(() => {
@@ -23,6 +24,38 @@ export default function SettingsAdmin() {
         };
         fetchSettings();
     }, []);
+
+    const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+
+        setUploadingImage(true);
+        setMessage("");
+
+        const formData = new FormData();
+        formData.append("file", file);
+
+        try {
+            const res = await fetch("/api/upload", {
+                method: "POST",
+                body: formData,
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                if (data.url) {
+                    setSettings((prev) => prev ? { ...prev, aboutPhoto: data.url } : null);
+                    setMessage("Photo uploaded successfully! Don't forget to save settings.");
+                }
+            } else {
+                setMessage("Failed to upload photo.");
+            }
+        } catch (error) {
+            setMessage("An error occurred during upload.");
+        } finally {
+            setUploadingImage(false);
+        }
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -168,16 +201,44 @@ export default function SettingsAdmin() {
                     </div>
 
                     <div className={styles.group}>
-                        <label className={styles.label}>Photo URL</label>
+                        <label className={styles.label}>Photo</label>
+
+                        {settings.aboutPhoto && (
+                            <div style={{ marginBottom: "1rem" }}>
+                                <div style={{ marginBottom: "0.5rem", borderRadius: "8px", overflow: "hidden", border: "1px solid var(--border)", width: "fit-content" }}>
+                                    <img
+                                        src={settings.aboutPhoto}
+                                        alt="About Preview"
+                                        style={{ width: "200px", height: "auto", display: "block" }}
+                                    />
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={() => setSettings((prev) => prev ? { ...prev, aboutPhoto: "" } : null)}
+                                    style={{
+                                        background: "none",
+                                        border: "none",
+                                        color: "#ef4444",
+                                        fontSize: "0.9rem",
+                                        cursor: "pointer",
+                                        padding: 0,
+                                        textDecoration: "underline"
+                                    }}
+                                >
+                                    Remove Photo
+                                </button>
+                            </div>
+                        )}
+
                         <input
-                            type="url"
-                            name="aboutPhoto"
-                            value={settings.aboutPhoto || ""}
-                            onChange={handleChange}
+                            type="file"
+                            accept="image/*"
+                            onChange={handleImageUpload}
                             className={styles.input}
-                            placeholder="https://example.com/photo.jpg"
-                            required
+                            disabled={uploadingImage}
+                            style={{ padding: '0.5rem', cursor: uploadingImage ? 'wait' : 'pointer' }}
                         />
+                        {uploadingImage && <p style={{ fontSize: '0.9rem', color: 'var(--accent)', marginTop: '0.5rem' }}>Uploading photo...</p>}
                     </div>
                 </div>
 
