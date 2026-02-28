@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
-import { writeFile, mkdir } from "fs/promises";
-import path from "path";
 import { cookies } from "next/headers";
+import { storage } from "@/lib/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 export async function POST(request: Request) {
     // Basic auth check
@@ -24,36 +24,41 @@ export async function POST(request: Request) {
         }
 
         const bytes = await file.arrayBuffer();
-        const buffer = Buffer.from(bytes);
 
-        // Define upload directory in public folder
-        const uploadDir = path.join(process.cwd(), "public/uploads");
+        // Generate a random unique file name
+        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
 
-        // Ensure directory exists
-        try {
-            await mkdir(uploadDir, { recursive: true });
-        } catch (error: any) {
-            console.error("MKDIR Error:", error.message || error);
-            // We ignore EEXIST but other errors might be permissions issues
+        // The file.name property might not exist, but file.type is usually trustworthy.
+        let ext = "";
+        if (file.name && file.name.includes('.')) {
+            ext = "." + file.name.split('.').pop();
+        } else if (file.type) {
+            ext = "." + file.type.split('/')[1];
+        } else {
+            ext = ".jpg";
         }
 
-        // Generate unique filename to avoid overwrites
-        const uniqueSuffix = `${Date.now()}-${Math.round(Math.random() * 1e9)}`;
-        const ext = path.extname(file.name || "image.jpg");
-        const filename = `about-${uniqueSuffix}${ext}`;
-        const filePath = path.join(uploadDir, filename);
+        const filename = `uploads/about-${uniqueSuffix}${ext}`;
 
-        // Save file
-        await writeFile(filePath, buffer);
+        // Reference in Firebase Storage where the file will be uploaded
+        const storageRef = ref(storage, filename);
 
-        // Return the public URL
-        const fileUrl = `/uploads/${filename}`;
+        // Setup metadata so Firebase sets the correct HTTP headers publicly
+        const metadata = {
+            contentType: file.type || "image/jpeg",
+        };
 
-        return NextResponse.json({ success: true, url: fileUrl });
+        // Upload the bytes directly
+        const snapshot = await uploadBytes(storageRef, new Uint8Array(bytes), metadata);
+
+        // Get the valid public URL
+        const downloadUrl = await getDownloadURL(snapshot.ref);
+
+        return NextResponse.json({ success: true, url: downloadUrl });
     } catch (error: any) {
         console.error("Upload error details:", error);
         return NextResponse.json(
-            { error: `Failed to upload file: ${error.message || "Unknown server error"}` },
+            { error: `Failed to upload file to Firebase: ${error.message || "Unknown server error"}` },
             { status: 500 }
         );
     }
